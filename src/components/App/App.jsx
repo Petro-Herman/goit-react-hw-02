@@ -8,13 +8,22 @@ export default function App() {
   const [feedback, setfeedback] = useState({ good: 0, neutral: 0, bad: 0 });
 
   useEffect(() => {
-    const storedFeedback = JSON.parse(localStorage.getItem("feedback"));
-    if (storedFeedback) {
-      setfeedback(storedFeedback);
+    const storedFeedback = localStorage.getItem('feedback');
+    // console.log("Зчитано з localStorage:", storedFeedback);
+    if(storedFeedback) {
+      setfeedback(JSON.parse(storedFeedback));
     }
   }, []);
 
+  // useEffect(() => {
+  //   const storedFeedback = JSON.parse(localStorage.getItem("feedback"));
+  //   if (storedFeedback) {
+  //     setfeedback(storedFeedback);
+  //   }
+  // }, []);
+
   useEffect(() => {
+    // console.log("Зберігаємо в localStorage:", feedback);
     localStorage.setItem("feedback", JSON.stringify(feedback));
   }, [feedback]);
 
@@ -32,16 +41,6 @@ export default function App() {
   const totalFeedback = feedback.good + feedback.neutral + feedback.bad;
   const positiveFeedback =
     totalFeedback > 0 ? Math.round((feedback.good / totalFeedback) * 100) : 0;
-  // const [clicks, setClicks] = useState (0);
-  // const [isOpen, setIsOpen] = useState(false);
-
-  // const handleClick = () => {
-  //     setClicks(clicks + 1);
-  // };
-
-  // const handleToggle = () => {
-  //     setIsOpen(!isOpen);
-  // };
 
   return (
     <div>
@@ -62,8 +61,7 @@ export default function App() {
       ) : (
         <Notification />
       )}
-      {/* <button onClick={handleClick}>Good</button>
-      <p>Good: {clicks}</p> */}
+
     </div>
   );
 }
