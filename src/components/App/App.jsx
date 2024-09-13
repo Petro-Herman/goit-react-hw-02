@@ -5,15 +5,19 @@ import Feedback from "../Feedback/Feedback";
 import Notification from "../Notification/Notification";
 
 export default function App() {
-  const [feedback, setfeedback] = useState({ good: 0, neutral: 0, bad: 0 });
+  const [feedback, setfeedback] = useState(() => {
+    const storedFeedback = localStorage.getItem("feedback");
+    return storedFeedback
+      ? JSON.parse(storedFeedback)
+      : { good: 0, neutral: 0, bad: 0 };
+  });
 
-  useEffect(() => {
-    const storedFeedback = localStorage.getItem('feedback');
-    // console.log("Зчитано з localStorage:", storedFeedback);
-    if(storedFeedback) {
-      setfeedback(JSON.parse(storedFeedback));
-    }
-  }, []);
+  // useEffect(() => {
+  //   const storedFeedback = localStorage.getItem('feedback');
+  //   if(storedFeedback) {
+  //     setfeedback(JSON.parse(storedFeedback));
+  //   }
+  // }, []);
 
   // useEffect(() => {
   //   const storedFeedback = JSON.parse(localStorage.getItem("feedback"));
@@ -61,7 +65,6 @@ export default function App() {
       ) : (
         <Notification />
       )}
-
     </div>
   );
 }
